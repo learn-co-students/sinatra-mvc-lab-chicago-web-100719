@@ -13,17 +13,22 @@ class PigLatinizer
     end
 
     def piglatinize_word(word)
-        if !consonant?(word[0])
-            word += "w"
-        elsif consonant?(word[0]) && consonant?(word[1]) && consonant?(word[2])
-            word = word.slice(3..-1) + word.slice(0..2)
-        elsif consonant?(word[0]) && consonant?(word[1])
-            word = word.slice(2..-1) + word.slice(0..1)
-        elsif consonant?(word[0])
-            word = word.slice(1..-1) + word.slice(0)
+    
+        letter_array = word.split("")
+        vowels = ["a", "e", "i", "o", "u",]
+        if vowels.include?(letter_array[0].downcase)
+            letter_array = letter_array << "w"
+        else
+            letter_array.each do |letter|
+                if !vowels.include?(letter.downcase)
+                letter_array = letter_array[1..-1] << letter
+                else
+                    break
+                end
+            end
         end
-        word + "ay"
-    end
+    letter_array.join("") + "ay"
+end
 
     def piglatinize_sentence(sentence)
         array = sentence.split(" ")
